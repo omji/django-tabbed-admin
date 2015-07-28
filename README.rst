@@ -128,10 +128,10 @@ You can pass and modify the tabs dynamically the same way you would do for field
             self.tabs = tabs
             return super(BandAdmin, self).get_tabs(request, obj)
 
+
 ************
 Contribution
 ************
-
 
 Please feel free to contribute. Any help and advices are much appreciated.
 You will find an exemple application to run and develop the library easily.
