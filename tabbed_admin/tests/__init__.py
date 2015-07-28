@@ -1,5 +1,6 @@
-from tests import TabbedModelAdminTest
+from tests import TabbedModelAdminTest, TabbedAdminTagsTest
 
 __all__ = [
-    "TabbedModelAdminTest"
+    "TabbedModelAdminTest",
+    "TabbedAdminTagsTest"
 ]
