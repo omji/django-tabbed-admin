@@ -18,7 +18,7 @@ setup(
     version='0.0.1',
     author='Guillaume Pousseo',
     author_email='guillaumepousseo@revsquare.com',
-    description='Add tabs easily to django admin forms.',
+    description='Easily add tabs to django admin forms.',
     long_description=open('README.rst').read(),
     url='http://www.revsquare.com',
     license='BSD License',
