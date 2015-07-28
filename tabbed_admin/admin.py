@@ -81,15 +81,11 @@ class TabbedModelAdmin(ModelAdmin):
             # Checks that each tab if formated with 2 arguments, verbose name
             # of the tab and the tab configuration.
             if type(tab) not in [tuple, list]:
-                raise TypeError(_(u'Each tab entry must be either a list or '
-                                'a tuple'))
+                raise TypeError(_(u'Each tab entry must be either a list or a tuple'))
             if len(tab) != 2:
-                raise ValueError(_(u'The value of each tabs entry must '
-                                 'contain 2 arguments: a verbose name and the '
-                                   'tab configuration'))
+                raise ValueError(_(u'Each tabs entry must contain 2 arguments: a verbose name and the tab setup.'))
             if type(tab[1]) not in [tuple, list]:
-                raise TypeError(_(u'A tab definition must be either a list or '
-                                'a tuple'))
+                raise TypeError(_(u'A tab definition must be either a list or a tuple'))
             # So far all went well, lets parse the tab configuration, we go
             # through each item. If its a tuple or a list we consider its a
             # fieldset, otherwise its a tuple.
