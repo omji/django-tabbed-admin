@@ -9,8 +9,10 @@ env:
 install:
   - pip install -q Django==$DJANGO --use-mirrors
   - pip install flake8 --use-mirrors
+  - pip install coveralls
   - pip install -q -e . --use-mirrors
 before_script:
   - "flake8 tabbed_admin"
 script:
-  - python tabbed_admin/tests/runtests.py
+  - coverage run tabbed_admin/tests/runtests.py
+after_success: coveralls
