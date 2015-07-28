@@ -107,8 +107,9 @@ class TabbedAdminTagsTest(TestCase):
         self.req.user = request.user
         self.view = self.admin.add_view(self.req)
         self.context = Context(self.view)
-        self.context.push({'adminform': self.view.context_data['adminform']})
-        self.context.push({'request': self.req})
+        self.context.push()
+        self.context['adminform'] = self.view.context_data['adminform']
+        self.context['request'] = self.req
 
     def test_request_not_in_context_raising_improperly_configured(self):
         """
@@ -132,7 +133,7 @@ class TabbedAdminTagsTest(TestCase):
         """
         Tests if fieldset is correctly returned when a fieldset is passed.
         """
-        self.context.push({'inline_admin_formsets': self.view.context_data['inline_admin_formsets']})
+        self.context['inline_admin_formsets'] = self.view.context_data['inline_admin_formsets']
         inline = self.view.context_data['tabs']['fields'][0]['entries'][1]
         self.assertEqual('inline', inline['type'])
         tag = render_tab_fieldsets_inlines(self.context, inline)
