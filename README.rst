@@ -84,7 +84,7 @@ The tab attribute configuration tries to remain similar to the fieldsets and inl
         )
         tabs = [
             ('Overview', tab_overview),
-            ('Ressources', tab_album)
+            ('Albums', tab_album)
         ]
 
 Be warned that the tabs will completely reset the fieldsets and inlines attributes in order to avoid conflicts during the form saving. Both attributes are overwritten with the entries passed to the tabs attribute. For the same reasons, it is highly recommanded not to overwrite get_fieldsets or get_inlines.
