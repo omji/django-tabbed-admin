@@ -6,6 +6,10 @@
   :target: https://travis-ci.org/omji/django-tabbed-admin
   :alt: build-status
 
+.. image:: https://coveralls.io/repos/omji/django-tabbed-admin/badge.png?branch=master
+  :target: https://coveralls.io/r/omji/django-tabbed-admin
+  :alt: coverage
+
 ###################
 Django tabbed admin
 ###################
