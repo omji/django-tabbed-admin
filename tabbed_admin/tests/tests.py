@@ -2,7 +2,9 @@ from django.contrib.admin.sites import AdminSite
 from django.template import Context
 from django.test import TestCase
 from django.test.client import RequestFactory
+from django.test.utils import override_settings
 
+from tabbed_admin.settings import USE_JQUERY_UI
 from tabbed_admin.templatetags.tabbed_admin_tags import render_tab_fieldsets_inlines
 from tabbed_admin.tests.admin import BandAdmin, InterviewInline
 from tabbed_admin.tests.models import Band
@@ -95,8 +97,52 @@ class TabbedModelAdminTest(TestCase):
         for inline in inlines:
             inlines_classes.append(inline.__class__)
         self.assertIn(added_inline, inlines_classes)
+
+    def test_version_previous_to_django(self):
+        """
+        Tests overriding dynamically tabs via get_tabs.
+        """
+        added_fieldset = ('Social', {
+            'fields': ('website', 'twitter', 'facebook')
+        })
+        added_inline = InterviewInline
+
+        class TestBandAdmin(BandAdmin):
+            def get_tabs(self, request, obj=None):
+                tabs = self.tabs
+                tab_overview = self.tab_overview + (added_fieldset, )
+                tab_ressources = self.tab_ressources + (added_inline, )
+                tabs = [
+                    ('Overview', tab_overview),
+                    ('Ressources', tab_ressources)
+                ]
+                self.tabs = tabs
+                return super(TestBandAdmin, self).get_tabs(request, obj)
+
+        original_admin = BandAdmin(Band, self.site)
+        self.assertNotIn(added_fieldset, original_admin.get_fieldsets(request))
+        self.assertNotIn(added_inline, original_admin.tab_ressources)
+        admin = TestBandAdmin(Band, self.site)
+        inlines_classes = []
+        inlines = admin.get_inline_instances(request)
+        for inline in inlines:
+            inlines_classes.append(inline.__class__)
+        self.assertIn(added_inline, inlines_classes)
+        self.assertIn(added_fieldset, admin.get_fieldsets(request))
         self.assertIn(added_fieldset, admin.get_fieldsets(request))
 
+    def test_medias_method_with_default_settings(self):
+        """
+        Tests that the media method is retrning the proper static files when settings.TABBED_ADMIN_USE_JQUERY_UI
+        is True or False.
+        """
+        self.assertEqual(False, USE_JQUERY_UI)
+        admin = BandAdmin(Band, self.site)
+        medias = admin.media
+        self.assertEqual({}, medias._css)
+        for js in medias._js:
+            self.assertNotIn(js, 'tabbed_admin')
+        
 
 class TabbedAdminTagsTest(TestCase):
 
@@ -110,6 +156,7 @@ class TabbedAdminTagsTest(TestCase):
         self.context.push()
         self.context['adminform'] = self.view.context_data['adminform']
         self.context['request'] = self.req
+        self.context['inline_admin_formsets'] = self.view.context_data['inline_admin_formsets']
 
     def test_request_not_in_context_raising_improperly_configured(self):
         """
@@ -122,7 +169,7 @@ class TabbedAdminTagsTest(TestCase):
 
     def test_fieldset_passed_returns_fieldset_templated(self):
         """
-        Tests if fieldset is correctly returned when a fieldset is passed.
+        Tests if the fieldset html is correctly generated when a fieldset is passed
         """
         fieldset = self.view.context_data['tabs']['fields'][0]['entries'][0]
         self.assertEqual('fieldset', fieldset['type'])
@@ -131,10 +178,19 @@ class TabbedAdminTagsTest(TestCase):
 
     def test_inline_passed_returns_inline_templated(self):
         """
-        Tests if fieldset is correctly returned when a fieldset is passed.
+        Tests if an inline html is correctly generated when an inline is passed.
         """
-        self.context['inline_admin_formsets'] = self.view.context_data['inline_admin_formsets']
         inline = self.view.context_data['tabs']['fields'][0]['entries'][1]
         self.assertEqual('inline', inline['type'])
         tag = render_tab_fieldsets_inlines(self.context, inline)
         self.assertIn('inline', tag)
+
+    def test_wrong_inline_key_returns_nothing(self):
+        """
+        Tests if a worng inline naming returns nothing.
+        """
+        inline = self.view.context_data['tabs']['fields'][0]['entries'][1]
+        self.assertEqual('inline', inline['type'])
+        inline['name'] = 'Not exists'
+        tag = render_tab_fieldsets_inlines(self.context, inline)
+        self.assertEqual('', tag)
