@@ -1,14 +1,17 @@
 .. image:: https://badge.fury.io/py/django-tabbed-admin.png
   :target: http://badge.fury.io/py/django-tabbed-admin
   :alt: PyPI version
+  :height: 18px
 
 .. image::  https://travis-ci.org/omji/django-tabbed-admin.png?branch=master
   :target: https://travis-ci.org/omji/django-tabbed-admin
   :alt: build-status
+  :height: 18px
 
 .. image:: https://coveralls.io/repos/omji/django-tabbed-admin/badge.png?branch=master
   :target: https://coveralls.io/r/omji/django-tabbed-admin
   :alt: coverage
+  :height: 18px
 
 ###################
 Django tabbed admin
