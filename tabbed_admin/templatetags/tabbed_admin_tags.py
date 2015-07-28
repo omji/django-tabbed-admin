@@ -16,12 +16,14 @@ def render_tab_fieldsets_inlines(context, entry):
     admin_form = context['adminform']
     if 'request' not in context:
         raise ImproperlyConfigured(
-            '"request" missing from context. Add django.core.context_processors.request to your'
+            '"request" missing from context. Add django.core.context'
+            '_processors.request to your'
             'TEMPLATE_CONTEXT_PROCESSORS')
     request = context['request']
     obj = context.get('original', None)
     readonly_fields = admin_form.model_admin.get_readonly_fields(request, obj)
-    inline_matching = dict((inline.opts.__class__.__name__, inline) for inline in context["inline_admin_formsets"])
+    inline_matching = dict((inline.opts.__class__.__name__, inline)
+                           for inline in context["inline_admin_formsets"])
 
     if entry['type'] == 'fieldset':
         name = entry['name']
@@ -38,8 +40,8 @@ def render_tab_fieldsets_inlines(context, entry):
         try:
             inline_admin_formset = inline_matching[entry["name"]]
             context["inline_admin_formset"] = inline_admin_formset
-            return render_to_string(inline_admin_formset.opts.template, context)
+            return render_to_string(inline_admin_formset.opts.template,
+                                    context)
         except KeyError:  # The user does not have the permission
             pass
     return ''
-
