@@ -1,3 +1,11 @@
+.. image:: https://badge.fury.io/py/django-tabbed-admin.png
+  :target: http://badge.fury.io/py/django-tabbed-admin
+  :alt: PyPI version
+
+.. image::  https://travis-ci.org/omji/django-tabbed-admin.png?branch=master
+  :target: https://travis-ci.org/omji/django-tabbed-admin
+  :alt: build-status
+
 ###################
 Django tabbed admin
 ###################
