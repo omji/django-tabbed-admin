@@ -11,12 +11,6 @@ Install
 
 It is strongly recommanded to install this theme from GIT with PIP onto you project virtualenv.
 
-From PyPi
-
-.. code-block::  shell-session
-
-    pip install django-tabbed-admin
-
 From Github
 
 .. code-block::  shell-session
@@ -164,6 +158,3 @@ LINKS
 
 Development:
     https://github.com/omji/django-tabbed-admin
-
-Package:
-    https://pypi.python.org/pypi/django-tabbed-admin
