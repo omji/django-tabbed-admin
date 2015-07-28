@@ -8,11 +8,9 @@ env:
   - DJANGO=1.8.3
 install:
   - pip install -q Django==$DJANGO --use-mirrors
-  - pip install pep8 --use-mirrors
-  - pip install https://github.com/dcramer/pyflakes/tarball/master
+  - pip install flake8 --use-mirrors
   - pip install -q -e . --use-mirrors
 before_script:
-  - "pep8 --exclude=migrations --ignore=E501,E225 tabbed_admin"
-  - pyflakes -x W tabbed_admin
+  - "flake8 --exclude=migrations --ignore=E501,E225 tabbed_admin"
 script:
   - python tabbed_admin/tests/runtests.py
