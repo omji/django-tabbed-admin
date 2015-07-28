@@ -154,40 +154,19 @@ You can pass and modify the tabs dynamically the same way you would do for field
 
 .. code-block::  python
 
-    class BandAdmin(TabbedModelAdmin):
-        model = Band
-
-        tab_overview = (
-            (None, {
-                'fields': ('name', 'bio', 'style')
-            }),
-            MusicianInline,
-            ('Contact', {
-                'fields': ('agent', 'phone', 'email')
-            }),
-        )
-        tab_ressources = (
-            ConcertInline,
-            AlbumInline,
-        )
-        tabs = [
-            ('Overview', tab_overview),
-            ('Ressources', tab_ressources)
-        ]
-
-        def get_tabs(self, request, obj=None):
-            tabs = self.tabs
-            if obj is not None:
-                tab_overview = self.tab_overview + ('Social', {
-                    'fields': ('website', 'twitter', 'facebook')
-                })
-                tab_ressources = self.tab_ressources + (InterviewInline, )
-                tabs = [
-                    ('Overview', tab_overview),
-                    ('Ressources', tab_ressources)
-                ]
-            self.tabs = tabs
-            return super(BandAdmin, self).get_tabs(request, obj)
+    def get_tabs(self, request, obj=None):
+        tabs = self.tabs
+        if obj is not None:
+            tab_overview = self.tab_overview + ('Social', {
+                'fields': ('website', 'twitter', 'facebook')
+            })
+            tab_ressources = self.tab_ressources + (InterviewInline, )
+            tabs = [
+                ('Overview', tab_overview),
+                ('Ressources', tab_ressources)
+            ]
+        self.tabs = tabs
+        return super(BandAdmin, self).get_tabs(request, obj)
 
 
 ************
