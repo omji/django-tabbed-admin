@@ -22,8 +22,10 @@ def render_tab_fieldsets_inlines(context, entry):
     request = context['request']
     obj = context.get('original', None)
     readonly_fields = admin_form.model_admin.get_readonly_fields(request, obj)
-    inline_matching = dict((inline.opts.__class__.__name__, inline)
-                           for inline in context["inline_admin_formsets"])
+    inline_matching = {}
+    if "inline_admin_formsets" in context:
+        inline_matching = dict((inline.opts.__class__.__name__, inline)
+                               for inline in context["inline_admin_formsets"])
 
     if entry['type'] == 'fieldset':
         name = entry['name']

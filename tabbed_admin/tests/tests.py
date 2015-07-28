@@ -1,6 +1,9 @@
 from django.contrib.admin.sites import AdminSite
+from django.template import Context
 from django.test import TestCase
+from django.test.client import RequestFactory
 
+from tabbed_admin.templatetags.tabbed_admin_tags import render_tab_fieldsets_inlines
 from tabbed_admin.tests.admin import BandAdmin, InterviewInline
 from tabbed_admin.tests.models import Band
 
@@ -10,17 +13,19 @@ class MockRequest(object):
 
 
 class MockSuperUser(object):
+    is_active = True
+    is_staff = True
     def has_perm(self, perm):
         return True
 
-request = MockRequest()
+request = RequestFactory()
 request.user = MockSuperUser()
+request.csrf_processing_done = True
 
 
 class TabbedModelAdminTest(TestCase):
 
     def setUp(self):
-        self.band = Band()
         self.site = AdminSite()
 
     def test_fieldsets_inline_attribute_populated(self):
@@ -91,3 +96,44 @@ class TabbedModelAdminTest(TestCase):
             inlines_classes.append(inline.__class__)
         self.assertIn(added_inline, inlines_classes)
         self.assertIn(added_fieldset, admin.get_fieldsets(request))
+
+
+class TabbedAdminTagsTest(TestCase):
+
+    def setUp(self):
+        self.site = AdminSite()
+        self.admin = BandAdmin(Band, self.site)
+        self.req = request.get('/admin/tabbed_admin/tab/')
+        self.req.user = request.user
+        self.view = self.admin.add_view(self.req)
+        self.context = Context(self.view)
+        self.context.push({'adminform': self.view.context_data['adminform']})
+        self.context.push({'request': self.req})
+
+    def test_request_not_in_context_raising_improperly_configured(self):
+        """
+        Tests if an exception is thrown when no request is passed.
+        """
+        from django.core.exceptions import ImproperlyConfigured
+        context = self.context
+        del context['request']
+        self.assertRaises(ImproperlyConfigured, render_tab_fieldsets_inlines, self.context, [])
+
+    def test_fieldset_passed_returns_fieldset_templated(self):
+        """
+        Tests if fieldset is correctly returned when a fieldset is passed.
+        """
+        fieldset = self.view.context_data['tabs']['fields'][0]['entries'][0]
+        self.assertEqual('fieldset', fieldset['type'])
+        tag = render_tab_fieldsets_inlines(self.context, fieldset)
+        self.assertIn('fieldset', tag)
+
+    def test_inline_passed_returns_inline_templated(self):
+        """
+        Tests if fieldset is correctly returned when a fieldset is passed.
+        """
+        self.context.push({'inline_admin_formsets': self.view.context_data['inline_admin_formsets']})
+        inline = self.view.context_data['tabs']['fields'][0]['entries'][1]
+        self.assertEqual('inline', inline['type'])
+        tag = render_tab_fieldsets_inlines(self.context, inline)
+        self.assertIn('inline', tag)
