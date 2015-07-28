@@ -53,7 +53,7 @@ The tab attribute configuration tries to remain similar to the fieldsets and inl
     from django.contrib import admin
 
     from tabbed_admin import TabbedModelAdmin
-    from .models import Band, Musician, Concert, Album, Interview
+    from .models import Band, Musician, Album
 
 
     class MusicianInline(admin.StackedInline):
@@ -61,18 +61,8 @@ The tab attribute configuration tries to remain similar to the fieldsets and inl
         extra = 1
 
 
-    class ConcertInline(admin.TabularInline):
-        model = Concert
-        extra = 1
-
-
     class AlbumInline(admin.TabularInline):
         model = Album
-        extra = 1
-
-
-    class InterviewInline(admin.TabularInline):
-        model = Interview
         extra = 1
 
 
@@ -87,19 +77,14 @@ The tab attribute configuration tries to remain similar to the fieldsets and inl
             MusicianInline,
             ('Contact', {
                 'fields': ('agent', 'phone', 'email')
-            }),
-            ('Social', {
-                'fields': ('website', 'twitter', 'facebook')
             })
         )
-        tab_ressources = (
-            ConcertInline,
+        tab_album = (
             AlbumInline,
-            InterviewInline
         )
         tabs = [
             ('Overview', tab_overview),
-            ('Ressources', tab_ressources)
+            ('Ressources', tab_album)
         ]
 
 Be warned that the tabs will completely reset the fieldsets and inlines attributes in order to avoid conflicts during the form saving. Both attributes are overwritten with the entries passed to the tabs attribute. For the same reasons, it is highly recommanded not to overwrite get_fieldsets or get_inlines.
