@@ -1,0 +1,6 @@
+# No particular version to test anything
+
+Django
+django-grappelli
+django-tabbed-admin
+django-gipsy

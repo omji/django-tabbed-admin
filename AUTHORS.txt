@@ -1,0 +1,3 @@
+The primary author of gipsy_tabbed_admin is Guillaume Pousseo 
+
+email: guillaumepousseo@revsquare.com

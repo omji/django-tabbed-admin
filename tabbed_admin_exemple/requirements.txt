@@ -1,0 +1,5 @@
+# No particular version to test anything
+
+Django
+django-grappelli
+django-gipsy
