@@ -5,13 +5,13 @@ Django tabbed admin
 Simple library to easilly add tabs to admin forms. It also allows users to re-order inlines and fieldsets.
 Django tabbed admin is compatible with django-grappelli and django-gipsy.
 
-.. image:: https://nimbus.everhelper.me/client/notes/share/256053/4cXe4tLqV8AJHsmQ21boF7qiTmfqGWgR/
+.. image:: https://box.everhelper.me/attachment/256053/57cPUoNE2hnY0my2COwPK3515ZeT5Lw1/341506-5Sg2yzDTt3GykItK/screen.png
    :height: 400px
    :width: 800 px
 
 Grappelli:
 
-.. image:: https://nimbus.everhelper.me/client/notes/share/256050/QzlZfrXOBGD3dZE45vumJpk8qHPgkGMp/
+.. image:: https://box.everhelper.me/attachment/256050/rSqCFM20d245qFlG5z64EgiOVpeuTU3P/341506-T8oo9qdxkqESFEaQ/screen.png
    :height: 400px
    :width: 800 px
 
