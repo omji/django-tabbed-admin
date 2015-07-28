@@ -1,8 +1,8 @@
 from django.contrib.admin.sites import AdminSite
 from django.test import TestCase
 
-from .admin import BandAdmin, InterviewInline
-from .models import Band
+from tabbed_admin.tests.admin import BandAdmin, InterviewInline
+from tabbed_admin.tests.models import Band
 
 
 class MockRequest(object):
