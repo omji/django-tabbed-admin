@@ -1,6 +1,6 @@
 import os
 import sys
-import django
+
 
 from django.conf import settings
 
@@ -14,19 +14,21 @@ settings.configure(
             'ENGINE': 'django.db.backends.sqlite3'
         }
     },
+    MIDDLEWARE_CLASSES=(),
     INSTALLED_APPS=(
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django.contrib.admin',
 
+        'tabbed_admin',
         'tabbed_admin.tests'
     )
 )
 
 
 try:
-    # Django <= 1.8
+    # Django < 1.8
     from django.test.simple import DjangoTestSuiteRunner
     test_runner = DjangoTestSuiteRunner(verbosity=1)
 except ImportError:
@@ -34,7 +36,15 @@ except ImportError:
     from django.test.runner import DiscoverRunner
     test_runner = DiscoverRunner(verbosity=1)
 
-django.setup()
+try:
+    # Django < 1.7
+    from django.core.management import setup_environ
+    setup_environ(settings)
+    failures = test_runner.run_tests(['tabbed_admin'])
+except:
+    # Django >= 1.7
+    import django
+    django.setup()
 
 failures = test_runner.run_tests(['tabbed_admin'])
 if failures:

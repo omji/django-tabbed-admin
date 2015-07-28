@@ -33,7 +33,13 @@ class TabbedModelAdmin(ModelAdmin):
             self.inlines = ()
         tabs_inlines = self.get_formatted_tabs(request, obj)['inlines']
         self.inlines = self.add_tabbed_item(tabs_inlines, self.inlines)
-        return super(TabbedModelAdmin, self).get_inline_instances(request, obj)
+
+        try:
+            # django >=1.7
+            return super(TabbedModelAdmin, self)\
+                .get_inline_instances(request, obj)
+        except TypeError:
+            return super(TabbedModelAdmin, self).get_inline_instances(request)
 
     def add_tabbed_item(self, items_to_add, collection):
         """
