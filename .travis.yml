@@ -3,7 +3,7 @@ python:
   - "2.7"
   - "3.2"
 env:
-  - DJANGO=1.4
+  - DJANGO=1.5
   - DJANGO=1.7
   - DJANGO=1.8.3
 install:
@@ -11,6 +11,6 @@ install:
   - pip install flake8 --use-mirrors
   - pip install -q -e . --use-mirrors
 before_script:
-  - "flake8 --exclude=migrations --ignore=E501,E225 tabbed_admin"
+  - "flake8 tabbed_admin"
 script:
   - python tabbed_admin/tests/runtests.py
