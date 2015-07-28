@@ -79,6 +79,32 @@ Configure admin tabs
 In order to add tabs to a model admin, it should inherit from tabbed_admin.TabbedModelAdmin and contain a tabs attribute.
 The tab attribute configuration tries to remain similar to the fieldsets and inlines setup logic.
 
+Basically, a tuple can be created for each tab exactely the same way as for fieldsets, except that inlines can be added anywhere in between. 
+
+.. code-block::  python
+
+    tab_overview = (
+        (None, {
+            'fields': ('name', 'bio', 'style')
+        }),
+        MusicianInline,
+        ('Contact', {
+            'fields': ('agent', 'phone', 'email')
+        })
+    )
+
+Then each tuple have to be passed to a *tabs* attribute prefixed by the verbose name to display within the tab:
+
+.. code-block::  python
+
+    tabs = [
+        ('Overview', tab_overview),
+        ('Albums', tab_album)
+    ]
+
+
+A full exemple would give:
+
 .. code-block::  python
 
     from django.contrib import admin
@@ -117,6 +143,10 @@ The tab attribute configuration tries to remain similar to the fieldsets and inl
             ('Overview', tab_overview),
             ('Albums', tab_album)
         ]
+
+**************************
+Configure tabs dynamically
+**************************
 
 Be warned that the tabs will completely reset the fieldsets and inlines attributes in order to avoid conflicts during the form saving. Both attributes are overwritten with the entries passed to the tabs attribute. For the same reasons, it is highly recommanded not to overwrite get_fieldsets or get_inlines.
 
