@@ -2,7 +2,7 @@
 {% load i18n admin_modify admin_urls tabbed_admin_tags %}
 
 {% block content %}
-XS
+
 <div id="content-main">
   {% block object-tools %}{{ block.super }}{% endblock %}
     <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
