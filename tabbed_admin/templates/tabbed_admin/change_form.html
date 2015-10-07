@@ -60,7 +60,7 @@
                     }
                     // enable the first non-disabled tab in add view
                     {% if add %}
-                        $('#tabs').tabs("select", enabled_tabs[0]);
+                        $('#tabs').tabs("option", "active", enabled_tabs[0]);
                     {% endif %}
 
                     // Hightlight tabs with errors inside
