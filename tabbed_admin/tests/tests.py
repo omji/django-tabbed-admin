@@ -174,6 +174,10 @@ class TabbedModelAdminTest(TestCase):
         """
         Tests if the right css ile is triggered when grappelli is installed.
         """
+        try:
+            import grappelli
+        except ImportError:
+            return
         settings.INSTALLED_APPS += ('grappelli', )
         self.assertIn('grappelli', settings.INSTALLED_APPS)
         admin = BandAdmin(Band, self.site)
