@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.admin.sites import AdminSite
 from django.template import Context
 from django.test import TestCase
@@ -168,6 +169,19 @@ class TabbedModelAdminTest(TestCase):
         self.assertEqual({}, medias._css)
         for js in medias._js:
             self.assertNotIn(js, 'tabbed_admin')
+
+    def test_medias_method_with_grappelli(self):
+        """
+        Tests if the right css ile is triggered when grappelli is installed.
+        """
+        settings.INSTALLED_APPS += ('grappelli', )
+        self.assertIn('grappelli', settings.INSTALLED_APPS)
+        admin = BandAdmin(Band, self.site)
+        medias = admin.media
+        self.assertTrue(len(medias._css) > 0)
+        self.assertIn('all', medias._css)
+        self.assertTrue(len(medias._css['all']) == 1)
+        self.assertIn('grappelli', medias._css['all'][0])
         
 
 class TabbedAdminTagsTest(TestCase):

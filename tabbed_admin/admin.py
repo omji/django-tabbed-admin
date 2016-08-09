@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.admin.options import ModelAdmin
 from django.utils.translation import ugettext_lazy as _
 
@@ -143,15 +144,19 @@ class TabbedModelAdmin(ModelAdmin):
         TABBED_ADMIN_USE_JQUERY_UI is set to True.
         """
         media = super(TabbedModelAdmin, self).media
-        css = {
-            "all": (
-                "tabbed_admin/css/tabbed_admin.css",
-            )
-        }
+        css = {}
+        js = []
+
+        if 'grappelli' in settings.INSTALLED_APPS:
+            css['all'] = ("tabbed_admin/css/tabbed_grappelli_admin.css", )
+            media.add_css(css)
+
         if USE_JQUERY_UI:
             css['all'] = \
-                ("tabbed_admin/css/jquery-ui-1.11.4.min.css", ) + css['all']
+                ("tabbed_admin/css/jquery-ui-1.11.4.min.css",
+                 "tabbed_admin/css/tabbed_admin.css", ) + css['all']
             js = ["tabbed_admin/js/jquery-ui-1.11.4.min.js"]
-            media.add_css(css)
-            media.add_js(js)
+
+        media.add_css(css)
+        media.add_js(js)
         return media
