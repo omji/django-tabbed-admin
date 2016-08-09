@@ -3,12 +3,18 @@ from django.db import models
 
 
 class Band(models.Model):
+    STYLE_ROCK = 1
+    STYLE_FUNK = 2
+    STYLE_JAZZ = 3
+    STYLE_OVERRIDE = 4
+
     name = models.CharField(max_length=100)
     bio = models.TextField(blank=True, null=True)
     style = models.CharField(max_length=100, choices=(
-        (1, 'Rock'),
-        (2, 'Funk'),
-        (3, 'Jazz')
+        (STYLE_ROCK, 'Rock'),
+        (STYLE_FUNK, 'Funk'),
+        (STYLE_JAZZ, 'Jazz'),
+        (STYLE_OVERRIDE, 'Override')
     ))
     agent = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=100, blank=True, null=True)

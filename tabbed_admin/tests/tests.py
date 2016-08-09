@@ -67,6 +67,32 @@ class TabbedModelAdminTest(TestCase):
         for inline in inlines:
             self.assertIn(inline, admin.formatted_tabs['inlines'])
 
+    def test_get_tabs_overrides_tabs_attribute(self):
+        """
+        Tests if get_tabs method successfully overrides the self.tabs and returns it.
+        """
+        single_tab = [('Overview', BandAdmin.tab_overview)]
+        class TestBandAdmin(BandAdmin):
+            def get_tabs(self, request, obj=None):
+                """
+                Returns the tabs attribute.
+                """
+                tabs = self.tabs
+                if obj is not None and obj.style == Band.STYLE_OVERRIDE:
+                    tabs = single_tab
+                self.tabs = tabs
+                return super(TestBandAdmin, self).get_tabs(request, obj)
+
+        admin = TestBandAdmin(Band, self.site)
+        band = Band.objects.create(name="Test band", style=Band.STYLE_JAZZ)
+        tabs = admin.get_tabs(request, band)
+        self.assertEqual(len(tabs), 2)
+        self.assertNotEqual(tabs, single_tab)
+        band.style = Band.STYLE_OVERRIDE
+        tabs = admin.get_tabs(request, band)
+        self.assertEqual(len(tabs), 1)
+        self.assertEqual(tabs, single_tab)
+
     def test_dynamically_add_fieldsets_inlines_to_tabs(self):
         """
         Tests overriding dynamically tabs via get_tabs.
