@@ -144,11 +144,11 @@ class TabbedModelAdmin(ModelAdmin):
         TABBED_ADMIN_USE_JQUERY_UI is set to True.
         """
         media = super(TabbedModelAdmin, self).media
-        css = {}
+        css = {'all': ()}
         js = []
 
         if 'grappelli' in settings.INSTALLED_APPS:
-            css['all'] = ("tabbed_admin/css/tabbed_grappelli_admin.css", )
+            css['all'] = ("tabbed_admin/css/tabbed_grappelli_admin.css", ) + css['all']
             media.add_css(css)
 
         if USE_JQUERY_UI:
