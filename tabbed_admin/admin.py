@@ -154,7 +154,7 @@ class TabbedModelAdmin(ModelAdmin):
         if USE_JQUERY_UI:
             css['all'] = \
                 ("tabbed_admin/css/jquery-ui-1.11.4.min.css",
-                 "tabbed_admin/css/tabbed_admin.css", ) + css['all']
+                 "tabbed_admin/css/tabbed_admin.css", ) + css.get('all', ())
             js = ["tabbed_admin/js/jquery-ui-1.11.4.min.js"]
 
         media.add_css(css)
