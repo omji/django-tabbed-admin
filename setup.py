@@ -15,7 +15,7 @@ else:
 
 setup(
     name='django-tabbed-admin',
-    version='1.0.0',
+    version='1.0.1',
     author='Guillaume Pousseo',
     author_email='guillaumepousseo@revsquare.com',
     description='Easily add tabs to django admin forms.',
@@ -34,6 +34,6 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ],
 )
