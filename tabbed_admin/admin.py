@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.admin.options import ModelAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from .settings import USE_JQUERY_UI
+from .settings import USE_JQUERY_UI, JQUERY_UI_CSS, JQUERY_UI_JS
 
 
 class TabbedModelAdmin(ModelAdmin):
@@ -152,10 +152,10 @@ class TabbedModelAdmin(ModelAdmin):
             media.add_css(css)
 
         if USE_JQUERY_UI:
-            css['all'] = \
-                ("tabbed_admin/css/jquery-ui-1.11.4.min.css",
-                 "tabbed_admin/css/tabbed_admin.css", ) + css.get('all', ())
-            js = ["tabbed_admin/js/jquery-ui-1.11.4.min.js"]
+            css['all'] = (
+                JQUERY_UI_CSS,
+                'tabbed_admin/css/tabbed_admin.css', ) + css.get('all', ())
+            js = [JQUERY_UI_JS]
 
         media.add_css(css)
         media.add_js(js)
