@@ -37,13 +37,14 @@ def render_tab_fieldsets_inlines(context, entry):
             **entry['config']
         )
         context["fieldset"] = f
-        return render_to_string(template, context.flatten())
+        return render_to_string(template, context.flatten(),
+                                request=context.request)
     elif entry['type'] == 'inline':
         try:
             inline_admin_formset = inline_matching[entry["name"]]
             context["inline_admin_formset"] = inline_admin_formset
             return render_to_string(inline_admin_formset.opts.template,
-                                    context.flatten())
+                                    context.flatten(), request=context.request)
         except KeyError:  # The user does not have the permission
             pass
     return ''
