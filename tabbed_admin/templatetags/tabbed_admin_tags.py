@@ -37,8 +37,7 @@ def render_tab_fieldsets_inlines(context, entry):
             **entry['config']
         )
         context["fieldset"] = f
-        return render_to_string(template, context.flatten(),
-                                request=context.request)
+        return render_to_string(template, context.flatten(), request=context.request)
     elif entry['type'] == 'inline':
         try:
             inline_admin_formset = inline_matching[entry["name"]]
