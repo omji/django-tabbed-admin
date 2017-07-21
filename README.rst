@@ -79,7 +79,7 @@ Configure admin tabs
 In order to add tabs to a model admin, it should inherit from tabbed_admin.TabbedModelAdmin and contain a tabs attribute.
 The tab attribute configuration tries to remain similar to the fieldsets and inlines setup logic.
 
-Basically, a tuple can be created for each tab exactely the same way as for fieldsets, except that inlines can be added anywhere in between. 
+Basically, a tuple can be created for each tab exactely the same way as for fieldsets, except that inlines can be added anywhere in between.
 
 .. code-block::  python
 
@@ -169,7 +169,30 @@ You can pass and modify the tabs dynamically the same way you would do for field
         return super(BandAdmin, self).get_tabs(request, obj)
 
 
-************
+********************
+Change the jquery ui
+********************
+
+You can change the jquery ui css and js by either overriding the media in the
+admin class
+
+.. code-block:: python
+
+    class Media:
+        css = {
+            'all': ('css/jquery-ui.theme.min.css',)
+        }
+
+or by changing the the following settings,
+
+`TABBED_ADMIN_JQUERY_UI_CSS` and `TABBED_ADMIN_JQUERY_UI_JS`
+
+.. code-block:: python
+
+    TABBED_ADMIN_JQUERY_UI_CSS = 'static/css/my-custom-jquery-ui.css'
+    TABBED_ADMIN_JQUERY_UI_JS = 'static/js/my-custom-jquery-ui.js'
+
+
 Contribution
 ************
 
