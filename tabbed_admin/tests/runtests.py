@@ -14,7 +14,7 @@ settings.configure(
             'ENGINE': 'django.db.backends.sqlite3'
         }
     },
-    ROOT_URLCONF='/',
+    ROOT_URLCONF='tabbed_admin.tests.urls',
     MIDDLEWARE_CLASSES=(),
     TEMPLATE_CONTEXT_PROCESSORS=[
         'django.template.context_processors.request'
@@ -26,7 +26,8 @@ settings.configure(
             'APP_DIRS': True,
             'OPTIONS': {
                 'context_processors': [
-                    'django.template.context_processors.request'
+                    'django.template.context_processors.request',
+                    'django.contrib.auth.context_processors.auth'
                 ],
             },
         },
@@ -62,6 +63,12 @@ except:
     import django
     django.setup()
 
-failures = test_runner.run_tests(['tabbed_admin'])
+if __name__ == "__main__":
+    from django.test.utils import get_runner
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'tabbed_admin.runtests'
+    TestRunner = get_runner(settings)
+    test_runner = TestRunner()
+    failures = test_runner.run_tests(['tabbed_admin'])
+
 if failures:
     sys.exit(failures)
