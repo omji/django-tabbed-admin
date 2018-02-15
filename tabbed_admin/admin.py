@@ -157,6 +157,6 @@ class TabbedModelAdmin(ModelAdmin):
                 'tabbed_admin/css/tabbed_admin.css', ) + css.get('all', ())
             js = [JQUERY_UI_JS]
 
-        media.add_css(css)
-        media.add_js(js)
+        media._css.update(css)
+        media._js.extend(js)
         return media
