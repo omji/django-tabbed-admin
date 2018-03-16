@@ -137,26 +137,14 @@ class TabbedModelAdmin(ModelAdmin):
             )
         return change_view
 
-    @property
-    def media(self):
+    class Media:
         """
-        Overrides media class to add custom jquery ui if
+        Extends media class to add custom jquery ui if
         TABBED_ADMIN_USE_JQUERY_UI is set to True.
         """
-        media = super(TabbedModelAdmin, self).media
-        css = {'all': ()}
-        js = []
-
         if 'grappelli' in settings.INSTALLED_APPS:
-            css['all'] = ("tabbed_admin/css/tabbed_grappelli_admin.css", ) + css['all']
-            media.add_css(css)
+            css = {'all': ("tabbed_admin/css/tabbed_grappelli_admin.css", )}
 
         if USE_JQUERY_UI:
-            css['all'] = (
-                JQUERY_UI_CSS,
-                'tabbed_admin/css/tabbed_admin.css', ) + css.get('all', ())
-            js = [JQUERY_UI_JS]
-
-        media.add_css(css)
-        media.add_js(js)
-        return media
+            css = {'all': (JQUERY_UI_CSS, 'tabbed_admin/css/tabbed_admin.css', )}
+            js = (JQUERY_UI_JS,)
