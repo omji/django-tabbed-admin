@@ -103,7 +103,7 @@ Then each tuple have to be passed to a *tabs* attribute prefixed by the verbose 
     ]
 
 
-A full exemple would give:
+A full example would give:
 
 .. code-block::  python
 
@@ -197,7 +197,7 @@ Contribution
 ************
 
 Please feel free to contribute. Any help and advices are much appreciated.
-You will find an exemple application to run and develop the library easily.
+You will find an example application to run and develop the library easily.
 
 
 *****
