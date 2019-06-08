@@ -82,7 +82,9 @@
                     }
 
 
-                })(django.jQuery);
+                })((typeof window.jQuery == 'undefined' && typeof window.django != 'undefined') 
+                ? django.jQuery 
+                : jQuery);
             </script>
             <!-- end admin_tabs stuff -->
 
